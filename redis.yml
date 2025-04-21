@@ -22,7 +22,7 @@ services:
       - 5540:5540  
     networks:
       - db-network
-      - judge-network
+      - domjudge_judge-network
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -30,7 +30,7 @@ services:
 networks:
   db-network:
     external: true
-  judge-network:
+  domjudge_judge-network:
     external: true
 
 volumes:
