@@ -36,6 +36,7 @@ services:
       - traefik-public  # Connect to Traefik's public network
       - mariadb-network  # Connect to MariaDB's network for DB access
       - judge-network  # Connect to the network where Redis might be present
+      - db-network  # Connect to the network where the database is located
   
   # You can also add any other services here, such as the redis service, if needed
   
@@ -46,6 +47,8 @@ networks:
     external: true  # This is where Redis might be connected
   traefik-public:
     external: true  # Traefik's public network should exist externally
+  db-network:
+    external: true  # This is where the database is connected
 
 volumes:
   submissions-data:
