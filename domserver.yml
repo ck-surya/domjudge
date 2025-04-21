@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  domserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: domserver
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: domjudge
+      MYSQL_USER: domjudge
+      MYSQL_PASSWORD: djpw
+      MYSQL_ROOT_PASSWORD: rootpw
+      CONTAINER_TIMEZONE: Asia/Kolkata
+      FPM_MAX_CHILDREN: 40
+      REDIS_HOST: redis
+    ports:
+      - "80:80"
+    volumes:
+      - ./php.ini:/usr/local/etc/php/php.ini
+      - ./framework.yaml:/opt/domjudge/domserver/webapp/config/packages/framework.yaml
+      - ./services.yaml:/opt/domjudge/domserver/webapp/config/services.yaml
+    labels:
+      - traefik.enable=true  # Enable Traefik for this service
+      - traefik.docker.network=traefik-public  # Make it part of Traefik's network
+      - traefik.constraint-label=traefik-public  # Constraints for Traefik
+      - traefik.http.middlewares.prod-redirect.redirectscheme.scheme=https  # Middleware to redirect to HTTPS
+      - traefik.http.routers.domserver-http.rule=Host(${SITES})  # HTTP routing rule for Traefik
+      - traefik.http.routers.domserver-http.entrypoints=http  # HTTP entry point
+      - traefik.http.routers.domserver-http.middlewares=prod-redirect  # Apply redirect middleware
+      - traefik.http.routers.domserver-https.rule=Host(${SITES})  # HTTPS routing rule
+      - traefik.http.routers.domserver-https.entrypoints=https  # HTTPS entry point
+      - traefik.http.routers.domserver-https.tls=true  # Enable TLS for HTTPS
+      - traefik.http.routers.domserver-https.tls.certresolver=le  # Use Let's Encrypt as the cert resolver
+      - traefik.http.services.domserver.loadbalancer.server.port=80  # Expose port 80 for Traefik to route traffic
+    networks:
+      - traefik-public  # Connect to Traefik's public network
+      - mariadb-network  # Connect to MariaDB's network for DB access
+      - judge-network  # Connect to the network where Redis might be present
+  
+  # You can also add any other services here, such as the redis service, if needed
+  
+networks:
+  mariadb-network:
+    external: true  # This network should already exist externally (as configured for MariaDB)
+  judge-network:
+    external: true  # This is where Redis might be connected
+  traefik-public:
+    external: true  # Traefik's public network should exist externally
+
+volumes:
+  submissions-data:
+    name: domserver-submissions-data
+  judgings-data:
+    name: domserver-judgings-data
+  
+ 
