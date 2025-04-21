@@ -44,12 +44,9 @@ networks:
   mariadb-network:
     external: true  # This network should already exist externally (as configured for MariaDB)
   judge-network:
-    external: true  # This is where Redis might be connected
   traefik-public:
     external: true  # Traefik's public network should exist externally
   domjudge_db-network:
-    external: true  # This is where the database is connected
-
 volumes:
   submissions-data:
     name: domserver-submissions-data
