@@ -26,6 +26,8 @@ services:
 
 networks:
   db-network:
+  judge-network:
+    external: true
 
 volumes:
   redis-data:
