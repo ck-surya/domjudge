@@ -17,5 +17,5 @@ services:
 
 networks:
   domjudge-network:
-    name: judge-network
+    name: domjudge_judge-network
     external: true
