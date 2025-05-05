@@ -7,7 +7,7 @@ services:
       - ./certs:/etc/letsencrypt
     entrypoint: >
       sh -c "certbot certonly --standalone --preferred-challenges http
-      --agree-tos --no-eff-email --email your@email.com
-      -d yourdomain.com"
+      --agree-tos --no-eff-email --email anup.kalbalia@gmail.com
+      -d test1.indianicpc.in"
     ports:
       - "80:80"

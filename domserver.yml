@@ -1,20 +1,24 @@
-version: "3.8"
+
 services:
   domserver:
     image: domjudge/domserver:8.2.3
     container_name: domserver
     environment:
       MYSQL_HOST: db
-      MYSQL_DATABASE: domjudge
-      MYSQL_USER: domjudge_user
-      MYSQL_PASSWORD: domjudge_pass
-      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: ${DJ_DB}
+      MYSQL_USER: ${DJ_DB_USER}
+      MYSQL_PASSWORD: ${DJ_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      CONTAINER_TIMEZONE: Asia/Kolkata
+      FPM_MAX_CHILDREN: 40
+
     volumes:
       - submissions-data:/opt/domjudge/domserver/submissions/
       - judgings-data:/opt/domjudge/domserver/judgings/
     networks:
       - backend
       - frontend
+      - mariadb-network
 
 volumes:
   submissions-data:
@@ -24,3 +28,5 @@ networks:
   backend:
     external: true
   frontend:
+  mariadb-network:
+    external: true
