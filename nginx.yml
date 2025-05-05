@@ -5,6 +5,8 @@ services:
     container_name: nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs/selfsigned:/etc/nginx/certs:ro
+
     ports:
       - "80:80"
     networks:
