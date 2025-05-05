@@ -7,13 +7,13 @@
    docker network create frontend
 
 2. Start MariaDB:
-   docker-compose -f mariadb.yml up -d
+   docker compose -f mariadb.yml up -d
 
 3. Start DOMjudge:
-   docker-compose -f domserver.yml up -d
+   docker compose -f domserver.yml up -d
 
 4. Run Certbot to obtain SSL certs:
-   docker-compose -f certbot.yml up
+   docker compose -f certbot.yml up
 
 5. Copy certs:
    cp certs/live/test1.indiaicpc.in/fullchain.pem certs/fullchain.pem
