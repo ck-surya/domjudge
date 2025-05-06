@@ -6,7 +6,7 @@ services:
     container_name: nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - /etc/letsencrypt/live/test1.indiaicpc.in:/etc/nginx/certs:ro
+      -  /etc/nginx/certs:/etc/nginx/certs:ro
     ports:
       - "80:80"
       - "443:443"
