@@ -8,6 +8,6 @@ services:
     entrypoint: >
       sh -c "certbot certonly --standalone --preferred-challenges http
       --agree-tos --no-eff-email --email anup.kalbalia@gmail.com
-      -d test1.indiaicpc.in"
+      -d icpc.rooknroll.in"
     ports:
       - "80:80"
